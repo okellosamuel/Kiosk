@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.* // Import all webkit classes
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.fragment.app.Fragment
 import com.osamaalek.kiosklauncher.R
 
@@ -22,6 +23,10 @@ class HomeFragment : Fragment() {
     private val KIOSS_URL = "https:/[Insert kiosk link here]"
     private val TAG = "KioskWebView"
 
+    // Set this to the package name of the app you want to launch automatically.
+    // Leave it null if you want to use the WebView instead.
+    private val SINGLE_APP_PACKAGE: String? = "app.com.maisha.idverification"
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,9 +38,36 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         webView = view.findViewById(R.id.webView)
+        val fabApps: FloatingActionButton = view.findViewById(R.id.fab_apps)
 
-        setupWebView()
-        loadWeb()
+        fabApps.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, AppsListFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (SINGLE_APP_PACKAGE != null) {
+            val fabApps: FloatingActionButton? = view?.findViewById(R.id.fab_apps)
+            fabApps?.visibility = View.GONE
+            webView.visibility = View.GONE
+            launchSingleApp()
+        } else {
+            setupWebView()
+            loadWeb()
+        }
+    }
+
+    private fun launchSingleApp() {
+        val launchIntent = requireContext().packageManager.getLaunchIntentForPackage(SINGLE_APP_PACKAGE!!)
+        if (launchIntent != null) {
+            startActivity(launchIntent)
+        } else {
+            Log.e(TAG, "Could not find launch intent for $SINGLE_APP_PACKAGE")
+        }
     }
 
     @SuppressLint("SetJavaScriptEnabled")

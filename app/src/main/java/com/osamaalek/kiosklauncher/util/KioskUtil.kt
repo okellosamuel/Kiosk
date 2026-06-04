@@ -36,8 +36,10 @@ class KioskUtil {
                 val activity = ComponentName(context, MainActivity::class.java)
                 devicePolicyManager.addPersistentPreferredActivity(myDeviceAdmin, filter, activity)
 
-                //
-                val appsWhiteList = arrayOf("com.osamaalek.kiosklauncher")
+                val appsWhiteList = arrayOf(
+                    "com.osamaalek.kiosklauncher",
+                    "app.com.maisha.idverification" // Replace with your target app's package name
+                )
                 devicePolicyManager.setLockTaskPackages(myDeviceAdmin, appsWhiteList)
 
                 devicePolicyManager.addUserRestriction(

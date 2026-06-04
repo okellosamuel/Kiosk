@@ -19,8 +19,14 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         KioskUtil.startKioskMode(this)
     }
+    override fun onResume() {
+        super.onResume()
+        // If we are in single app mode, we want to make sure the app is launched when we return to home
+        // The HomeFragment.onResume() will handle the auto-launch if SINGLE_APP_PACKAGE is set.
+    }
     override fun onBackPressed() {
-        if (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) is AppsListFragment) supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainerView, HomeFragment()).commit()
+        if (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) is AppsListFragment) {
+            supportFragmentManager.popBackStack()
+        }
     }
 }
