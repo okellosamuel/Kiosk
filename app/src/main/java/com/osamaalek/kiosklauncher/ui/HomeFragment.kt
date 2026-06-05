@@ -42,6 +42,7 @@ class HomeFragment : Fragment() {
         webView = view.findViewById(R.id.webView)
         val fabApps: FloatingActionButton = view.findViewById(R.id.fab_apps)
         val fabWifi: FloatingActionButton = view.findViewById(R.id.fab_wifi)
+        val fabBrightness: FloatingActionButton = view.findViewById(R.id.fab_brightness)
 
         fabApps.setOnClickListener {
             parentFragmentManager.beginTransaction()
@@ -54,6 +55,11 @@ class HomeFragment : Fragment() {
             val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
             startActivity(intent)
         }
+
+        fabBrightness.setOnClickListener {
+            val intent = Intent(Settings.ACTION_DISPLAY_SETTINGS)
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {
@@ -61,8 +67,10 @@ class HomeFragment : Fragment() {
         if (SINGLE_APP_PACKAGE != null) {
             val fabApps: FloatingActionButton? = view?.findViewById(R.id.fab_apps)
             val fabWifi: FloatingActionButton? = view?.findViewById(R.id.fab_wifi)
+            val fabBrightness: FloatingActionButton? = view?.findViewById(R.id.fab_brightness)
             fabApps?.visibility = View.GONE
             fabWifi?.visibility = View.GONE
+            fabBrightness?.visibility = View.GONE
             webView.visibility = View.GONE
             launchSingleApp()
         } else {
