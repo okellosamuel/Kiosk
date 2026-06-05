@@ -87,8 +87,13 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), "Mobile data toggled", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 Log.e(TAG, "Error toggling mobile data: ${e.message}")
-                val intent = Intent(Settings.ACTION_DATA_ROAMING_SETTINGS)
-                startActivity(intent)
+                val intent = Intent("android.settings.DATA_USAGE_SETTINGS")
+                try {
+                    startActivity(intent)
+                } catch (ex: Exception) {
+                    val fallbackIntent = Intent(Settings.ACTION_DATA_ROAMING_SETTINGS)
+                    startActivity(fallbackIntent)
+                }
             }
         }
     }
