@@ -64,7 +64,7 @@ class KioskUtil {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
                     devicePolicyManager.setLockTaskFeatures(
                         myDeviceAdmin,
-                        DevicePolicyManager.LOCK_TASK_FEATURE_NONE
+                        DevicePolicyManager.LOCK_TASK_FEATURE_SYSTEM_INFO
                     )
                 }
 
