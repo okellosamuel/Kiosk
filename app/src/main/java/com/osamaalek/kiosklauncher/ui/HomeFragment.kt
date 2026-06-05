@@ -11,6 +11,8 @@ import android.content.Intent
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.content.Context
+import android.widget.Toast
+import android.os.Build
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.fragment.app.Fragment
 import com.osamaalek.kiosklauncher.R
@@ -70,8 +72,24 @@ class HomeFragment : Fragment() {
         }
 
         fabMobileData.setOnClickListener {
-            val intent = Intent(Settings.ACTION_DATA_ROAMING_SETTINGS)
-            startActivity(intent)
+            try {
+                val itm = requireContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+                val currentDataEnabled = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    @SuppressLint("MissingPermission")
+                    itm.isDataEnabled
+                } else {
+                    val getMobileDataEnabledMethod = itm.javaClass.getDeclaredMethod("getDataEnabled")
+                    getMobileDataEnabledMethod.invoke(itm) as Boolean
+                }
+                val setDataEnabledMethod = itm.javaClass.getDeclaredMethod("setDataEnabled", Boolean::class.java)
+                setDataEnabledMethod.isAccessible = true
+                setDataEnabledMethod.invoke(itm, !currentDataEnabled)
+                Toast.makeText(requireContext(), "Mobile data toggled", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Log.e(TAG, "Error toggling mobile data: ${e.message}")
+                val intent = Intent(Settings.ACTION_DATA_ROAMING_SETTINGS)
+                startActivity(intent)
+            }
         }
     }
 

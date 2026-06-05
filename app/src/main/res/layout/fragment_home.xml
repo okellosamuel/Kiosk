@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="@string/mobile_data_settings"
-        android:src="@android:drawable/stat_sys_data_bluetooth"
+        android:src="@drawable/ic_mobiledata"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/fab_brightness"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="@string/brightness_settings"
-        android:src="@android:drawable/ic_menu_agenda"
+        android:src="@drawable/ic_display"
         app:layout_constraintBottom_toTopOf="@id/fab_wifi"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="@string/wifi_settings"
-        android:src="@android:drawable/ic_menu_preferences"
+        android:src="@drawable/ic_wifi"
         app:layout_constraintBottom_toTopOf="@id/fab_apps"
         app:layout_constraintEnd_toEndOf="parent" />
 
