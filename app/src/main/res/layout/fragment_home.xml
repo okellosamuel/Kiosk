@@ -18,6 +18,17 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_mobile_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/mobile_data_settings"
+        android:src="@android:drawable/stat_sys_data_bluetooth"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/fab_brightness"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_brightness"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

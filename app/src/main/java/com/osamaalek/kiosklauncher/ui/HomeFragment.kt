@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.webkit.* // Import all webkit classes
 import android.content.Intent
 import android.provider.Settings
+import android.telephony.TelephonyManager
+import android.content.Context
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.fragment.app.Fragment
 import com.osamaalek.kiosklauncher.R
@@ -43,6 +45,12 @@ class HomeFragment : Fragment() {
         val fabApps: FloatingActionButton = view.findViewById(R.id.fab_apps)
         val fabWifi: FloatingActionButton = view.findViewById(R.id.fab_wifi)
         val fabBrightness: FloatingActionButton = view.findViewById(R.id.fab_brightness)
+        val fabMobileData: FloatingActionButton = view.findViewById(R.id.fab_mobile_data)
+
+        val telephonyManager = requireContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        if (telephonyManager.simState == TelephonyManager.SIM_STATE_READY) {
+            fabMobileData.visibility = View.VISIBLE
+        }
 
         fabApps.setOnClickListener {
             parentFragmentManager.beginTransaction()
@@ -60,6 +68,11 @@ class HomeFragment : Fragment() {
             val intent = Intent(Settings.ACTION_DISPLAY_SETTINGS)
             startActivity(intent)
         }
+
+        fabMobileData.setOnClickListener {
+            val intent = Intent(Settings.ACTION_DATA_ROAMING_SETTINGS)
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {
@@ -68,9 +81,11 @@ class HomeFragment : Fragment() {
             val fabApps: FloatingActionButton? = view?.findViewById(R.id.fab_apps)
             val fabWifi: FloatingActionButton? = view?.findViewById(R.id.fab_wifi)
             val fabBrightness: FloatingActionButton? = view?.findViewById(R.id.fab_brightness)
+            val fabMobileData: FloatingActionButton? = view?.findViewById(R.id.fab_mobile_data)
             fabApps?.visibility = View.GONE
             fabWifi?.visibility = View.GONE
             fabBrightness?.visibility = View.GONE
+            fabMobileData?.visibility = View.GONE
             webView.visibility = View.GONE
             launchSingleApp()
         } else {
