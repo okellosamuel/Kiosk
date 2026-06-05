@@ -40,6 +40,7 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
+    @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -75,7 +76,6 @@ class HomeFragment : Fragment() {
             try {
                 val itm = requireContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
                 val currentDataEnabled = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    @SuppressLint("MissingPermission")
                     itm.isDataEnabled
                 } else {
                     val getMobileDataEnabledMethod = itm.javaClass.getDeclaredMethod("getDataEnabled")
