@@ -18,9 +18,9 @@ class MainActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
         window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD)
         
-        hideSystemUI()
-        
         setContentView(R.layout.activity_main)
+        
+        hideSystemUI()
 
         KioskUtil.startKioskMode(this)
     }
@@ -28,7 +28,8 @@ class MainActivity : AppCompatActivity() {
     private fun hideSystemUI() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.setDecorFitsSystemWindows(false)
-            window.insetsController?.let { controller ->
+            // Use WindowInsetsControllerCompat or check for null safely
+            window.decorView.windowInsetsController?.let { controller ->
                 controller.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
                 controller.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             }
