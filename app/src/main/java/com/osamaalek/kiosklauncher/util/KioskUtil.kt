@@ -38,13 +38,35 @@ class KioskUtil {
 
                 val appsWhiteList = arrayOf(
                     "com.osamaalek.kiosklauncher",
-                    "app.com.maisha.idverification" // Replace with your target app's package name
+                    "app.com.maisha.idverification", // Replace with your target app's package name
+                    "com.android.settings"
                 )
                 devicePolicyManager.setLockTaskPackages(myDeviceAdmin, appsWhiteList)
 
+                // Additional restrictions to keep it in Kiosk mode
                 devicePolicyManager.addUserRestriction(
                     myDeviceAdmin, UserManager.DISALLOW_UNINSTALL_APPS
                 )
+                devicePolicyManager.addUserRestriction(
+                    myDeviceAdmin, UserManager.DISALLOW_FACTORY_RESET
+                )
+                devicePolicyManager.addUserRestriction(
+                    myDeviceAdmin, UserManager.DISALLOW_SAFE_BOOT
+                )
+                devicePolicyManager.addUserRestriction(
+                    myDeviceAdmin, UserManager.DISALLOW_MOUNT_PHYSICAL_MEDIA
+                )
+                devicePolicyManager.addUserRestriction(
+                    myDeviceAdmin, UserManager.DISALLOW_ADJUST_VOLUME
+                )
+
+                // Lock Task Features (API 28+)
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                    devicePolicyManager.setLockTaskFeatures(
+                        myDeviceAdmin,
+                        DevicePolicyManager.LOCK_TASK_FEATURE_NONE
+                    )
+                }
 
             } else {
                 Toast.makeText(

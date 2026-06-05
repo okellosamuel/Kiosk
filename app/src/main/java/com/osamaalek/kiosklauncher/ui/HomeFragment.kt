@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.* // Import all webkit classes
+import android.content.Intent
+import android.provider.Settings
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.fragment.app.Fragment
 import com.osamaalek.kiosklauncher.R
@@ -25,7 +27,7 @@ class HomeFragment : Fragment() {
 
     // Set this to the package name of the app you want to launch automatically.
     // Leave it null if you want to use the WebView instead.
-    private val SINGLE_APP_PACKAGE: String? = "app.com.maisha.idverification"
+    private val SINGLE_APP_PACKAGE: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +41,7 @@ class HomeFragment : Fragment() {
 
         webView = view.findViewById(R.id.webView)
         val fabApps: FloatingActionButton = view.findViewById(R.id.fab_apps)
+        val fabWifi: FloatingActionButton = view.findViewById(R.id.fab_wifi)
 
         fabApps.setOnClickListener {
             parentFragmentManager.beginTransaction()
@@ -46,13 +49,20 @@ class HomeFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        fabWifi.setOnClickListener {
+            val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {
         super.onResume()
         if (SINGLE_APP_PACKAGE != null) {
             val fabApps: FloatingActionButton? = view?.findViewById(R.id.fab_apps)
+            val fabWifi: FloatingActionButton? = view?.findViewById(R.id.fab_wifi)
             fabApps?.visibility = View.GONE
+            fabWifi?.visibility = View.GONE
             webView.visibility = View.GONE
             launchSingleApp()
         } else {
